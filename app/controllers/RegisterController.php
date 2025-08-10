@@ -1,5 +1,4 @@
 <?php
-// app/controllers/RegisterController.php
 
 session_start();
 
