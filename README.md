@@ -38,14 +38,12 @@ El panel de administrador es el núcleo de control de todo el sistema. Las funci
   - Asignar dispositivos (laptops, PCs, etc.) a los técnicos para reparación.
   - Ver historial de dispositivos, reparaciones y cambios de estado.
   - Agregar equipo, llevar seguimiento, editar y ver información del equipo asi como poder eliminar equipo.
-  - 
 
 - 📊 **Dashboard**:
   - Visualización general del sistema: número de productos, técnicos activos, equipos en reparación, etc.
 
 - 👥 **Gestión de Usuarios**:
   - Ver todos los usuarios registrados.
-  
 
 ---
 
@@ -92,9 +90,9 @@ El sistema gestiona tres tipos de roles con permisos específicos:
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Frontend**: HTML5, Bootstrap, CSS3, JavaScript básico
-- **Backend**: PHP (por agregar)
-- **Base de Datos**: MySQL (por agregar)
+- **Frontend**: HTML5, Bootstrap, CSS3, JavaScript 
+- **Backend**: PHP 
+- **Base de Datos**: MySQL 
 - **Hosting**: XAMPP o servidor compatible (en proceso)
 
 ---
