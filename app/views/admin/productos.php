@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../assets/css/paneles.css">
+
+</head>
+
+<body class="vh-100 d-flex flex-column">
+
+    <?php include __DIR__ . '/../../../app/views/common/panel/header.php'; ?> <!-- Header -->
+
+    <div class="flex-grow-1 d-flex flex-column flex-md-row" style="min-height: 0;">
+
+       <?php include __DIR__ . '/../../../app/views/common/panel/aside_admin.php'; ?> <!-- Aside -->
+
+        <!-- Productos Inicia -->
+        <main class="flex-grow-1 overflow-auto p-4">
+            <h4 class="text-center mb-4 fw-bold">NUESTROS PRODUCTOS</h4>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
+                <select class="form-select w-auto">
+                    <option>Filtrar por categoria</option>
+                    <option>Memorias</option>
+                    <option>Tarjetas madre</option>
+                </select>
+                <div class="mt-3 mt-md-auto">
+                    <a href="#" class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#modalCategorias"><i
+                            class="bi bi-plus"></i>Gestionar categorias</a>
+
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto"><i
+                            class="bi bi-plus"></i> Agregar producto</a>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagen</th>
+                            <th>Nombre de producto</th>
+                            <th>Precio</th>
+                            <th>Categoría</th>
+                            <th>Stock</th>
+                            <th>Presentación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <img src="img/imagen pc.png" class="img-thumbnail-fixed" alt="Producto">
+                            </td>
+                            <td>Tarjeta Madre Asus</td>
+                            <td><span>$</span>200</td>
+                            <td>Tarjetas madre</td>
+                            <td>5</td>
+                            <td>
+                                <span class="badge bg-secondary">Unidad</span>
+                            </td>
+                            <td>
+                                <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</a>
+                                |
+                                <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Eliminar</a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <img src="img/caja_clavos.png" class="img-thumbnail-fixed" alt="Producto">
+                            </td>
+                            <td>Caja de clavos</td>
+                            <td><span>$</span>8</td>
+                            <td>Ferretería</td>
+                            <td>10</td>
+                            <td>
+                                <span class="badge bg-info text-dark">Caja</span><br>
+                                <small class="text-muted">100 unidades por caja</small>
+                            </td>
+                            <td>
+                                <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</a>
+                                |
+                                <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Eliminar</a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <img src="img/rollo_papel.png" class="img-thumbnail-fixed" alt="Producto">
+                            </td>
+                            <td>Cartón de papel</td>
+                            <td><span>$</span>15</td>
+                            <td>Oficina</td>
+                            <td>5</td>
+                            <td>
+                                <span class="badge bg-info text-dark">Caja</span><br>
+                                <small class="text-muted">Unidades desconocidas</small>
+                            </td>
+                            <td>
+                                <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</a>
+                                |
+                                <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Eliminar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+        <!-- Productos Finaliza -->
+
+    </div>
+
+    <!-- MODALES DE PRODUCTOS INICIAN -->
+    <!-- Modal agregar producto inicia -->
+    <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-labelledby="modalAgregarProductoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarProductoLabel">Agregar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del producto</label>
+                            <input type="text" class="form-control" placeholder="Ej: Tarjeta Madre Asus">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Precio por unidad o caja ($)</label>
+                            <input type="number" class="form-control" placeholder="Ej: 200">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Imagen del producto</label>
+                            <input type="file" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cantidad en stock</label>
+                            <input type="number" class="form-control" placeholder="Ej: 10">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Categoría</label>
+                            <select class="form-select">
+                                <option selected disabled>Seleccione una categoría</option>
+                                <option value="usb">Memorias USB</option>
+                                <option value="motherboard">Tarjetas Madre</option>
+                                <option value="ram">Memoria RAM</option>
+                                <option value="hdd">Discos Duros</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+
+                        <!-- Nuevo: Tipo de presentación -->
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de presentación</label>
+                            <select class="form-select" id="tipoPresentacion" onchange="toggleUnidadesPorCaja()">
+                                <option value="unidad">Unidad</option>
+                                <option value="caja">Caja</option>
+                            </select>
+                        </div>
+
+                        <!-- Nuevo: Campo opcional para unidades por caja -->
+                        <div class="mb-3" id="campoUnidadesPorCaja" style="display: none;">
+                            <label class="form-label">Unidades por caja <small class="text-muted">(opcional)</small></label>
+                            <input type="number" class="form-control" placeholder="Ej: 24">
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Agregar producto</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal agregar producto finaliza -->
+
+    <!-- Modal editar producto inicia -->
+    <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarProductoLabel">Editar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del producto</label>
+                            <input type="text" class="form-control" value="Tarjeta Madre Asus">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Precio por unidad ($)</label>
+                            <input type="number" class="form-control" value="200">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Imagen del producto</label>
+                            <input type="file" class="form-control">
+                            <div class="mt-2 small text-muted">Imagen actual: tarjeta_madre_asus.png</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cantidad en stock</label>
+                            <input type="number" class="form-control" value="5">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Categoría</label>
+                            <select class="form-select">
+                                <option value="usb">Memorias USB</option>
+                                <option value="motherboard" selected>Tarjetas Madre</option>
+                                <option value="ram">Memoria RAM</option>
+                                <option value="hdd">Discos Duros</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal elminar producto Finaliza -->
+
+    <!-- Modal elminar producto Inicia -->
+    <div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro que desea eliminar el producto?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal elminar producto Finaliza -->
+
+    <!-- Modal Categorias inicia -->
+    <div class="modal fade" id="modalCategorias" tabindex="-1" aria-labelledby="modalCategoriasLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCategoriasLabel">Categorías</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form class="mb-3 d-flex">
+                        <input type="text" class="form-control me-2" placeholder="Nueva categoría" required>
+                        <button type="button" class="btn btn-success">Agregar</button>
+                    </form>
+
+                    <hr>
+
+                    <h6>Categorías existentes</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Tarjetas Madre
+                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            USB's
+                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Teclados
+                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal Categorias Finaliza -->
+    <!-- MODALES DE PRODUCTOS FINALIZAN -->
+
+
+</body>
+<!-- Script para modal de agregar producto -->
+<script>
+    function toggleUnidadesPorCaja() {
+        const tipo = document.getElementById('tipoPresentacion').value;
+        const campo = document.getElementById('campoUnidadesPorCaja');
+        campo.style.display = (tipo === 'caja') ? 'block' : 'none';
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>
