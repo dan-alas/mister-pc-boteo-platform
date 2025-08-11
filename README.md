@@ -94,6 +94,7 @@ El sistema gestiona tres tipos de roles con permisos específicos:
 - **Backend**: PHP 
 - **Base de Datos**: MySQL 
 - **Hosting**: XAMPP o servidor compatible (en proceso)
+- **Automatización**: n8n (en proceso)
 
 ---
 
