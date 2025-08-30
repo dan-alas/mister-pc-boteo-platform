@@ -1,3 +1,29 @@
+<?php
+
+require_once __DIR__ . '/../../../config/config.php'; // Ajusta la ruta a tu config.php
+
+try {
+    // // Equipos en reparación
+    // $stmt = $pdo->query("SELECT COUNT(*) FROM ordenes_reparacion WHERE estado = 'En reparación'");
+    // $equipos_reparacion = $stmt->fetchColumn();
+
+    // // Productos disponibles
+    // $stmt = $pdo->query("SELECT COUNT(*) FROM productos");
+    // $productos_disponibles = $stmt->fetchColumn();
+
+    // /// Técnicos disponibles
+    // $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE rol = 'tecnico'");
+    // $tecnicos = $stmt->fetchColumn();
+
+    // // Clientes registrados
+    // $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE rol = 'cliente'");
+    // $clientes = $stmt->fetchColumn();
+
+} catch (PDOException $e) {
+    die("Error al obtener los datos: " . $e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -31,25 +57,26 @@
                     <div class="col-md-5">
                         <div class="bg-yellow rounded p-3 text-center text-white">
                             <h5 class="fw-bold">Equipos en reparación</h5>
-                            <p class="number-size mb-4">2</p>
+                            <p class="number-size mb-4"><?= $equipos_reparacion ?></p>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="bg-pink rounded p-3 text-center text-white">
                             <h5 class="fw-bold">Productos disponibles</h5>
-                            <p class="number-size mb-4">0</p>
+                            <p class="number-size mb-4"><?= $productos_disponibles ?></p>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="bg-green rounded p-3 text-center text-white">
-                            <h5 class="fw-bold">Técnicos disponibles</h5>
-                            <p class="number-size mb-4">2</p>
+                            <h5 class="fw-bold"></h5>
+                            <h5 class="fw-bold">Tecnicos registrados</h5>
+                            <p class="number-size mb-4"><?= $tecnicos?></p>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="bg-light-blue rounded p-3 text-center text-white">
-                            <h5 class="fw-bold">Clientes registrados</h5>
-                            <p class="number-size mb-4">2</p>
+                            <h5 class="fw-bold">Clientes Registrados</h5>
+                            <p class="number-size mb-4"><?= $clientes ?></p>
                         </div>
                     </div>
                 </div>

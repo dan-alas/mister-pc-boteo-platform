@@ -1,6 +1,8 @@
 <?php 
-//Verifica sesion de tecnico
-session_start();
+// Verifica sesión de técnico
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $baseUrl = '/mister-pc-boteo/public';
 
@@ -14,7 +16,7 @@ if ($_SESSION['usuario_rol'] !== 'tecnico') {
         case 'admin':
             header("Location: {$baseUrl}/admin/inicio.php");
             break;
-        case 'usuario':
+        case 'cliente':  // Actualizado de 'usuario' a 'cliente'
             header("Location: {$baseUrl}/cliente/inicio.php");
             break;
         default:

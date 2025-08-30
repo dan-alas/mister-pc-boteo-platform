@@ -1,28 +1,30 @@
 <?php
+require_once __DIR__ . '/../models/User.php';
 
 class AuthController {
-    private $pdo;
+    private $userModel;
 
     public function __construct($pdo) {
-        $this->pdo = $pdo;
+        $this->userModel = new User($pdo);
     }
 
     public function login($postData) {
         $email = trim($postData['email'] ?? '');
         $password = trim($postData['password'] ?? '');
 
-        if (empty($email) || empty($password)) {
+        if (!$email || !$password) {
             return ['success' => false, 'error' => 'Por favor completa todos los campos.'];
         }
 
-        $stmt = $this->pdo->prepare("SELECT id, username, email, password, rol FROM usuarios WHERE email = :email");
-        $stmt->execute(['email' => $email]);
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $this->userModel->findByEmail($email);
 
-        if ($usuario && password_verify($password, $usuario['password'])) {
-            return ['success' => true, 'usuario' => $usuario];
-        } else {
-            return ['success' => false, 'error' => 'Credenciales incorrectas.'];
+        if ($user && password_verify($password, $user['pass_hash'])) {
+            if ($user['is_active'] == 0) {
+                return ['success' => false, 'error' => 'Usuario desactivado.'];
+            }
+            return ['success' => true, 'usuario' => $user];
         }
+
+        return ['success' => false, 'error' => 'Credenciales incorrectas.'];
     }
 }

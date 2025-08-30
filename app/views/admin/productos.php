@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8" />
@@ -17,7 +17,7 @@
 
     <div class="flex-grow-1 d-flex flex-column flex-md-row" style="min-height: 0;">
 
-       <?php include __DIR__ . '/../../../app/views/common/panel/aside_admin.php'; ?> <!-- Aside -->
+        <?php include __DIR__ . '/../../../app/views/common/panel/aside_admin.php'; ?> <!-- Aside -->
 
         <!-- Productos Inicia -->
         <main class="flex-grow-1 overflow-auto p-4">
@@ -121,6 +121,7 @@
     </div>
 
     <!-- MODALES DE PRODUCTOS INICIAN -->
+
     <!-- Modal agregar producto inicia -->
     <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-labelledby="modalAgregarProductoLabel"
         aria-hidden="true">
@@ -268,50 +269,77 @@
     </div>
     <!-- Modal elminar producto Finaliza -->
 
-    <!-- Modal Categorias inicia -->
+    <!-- Modal Categorias -->
     <div class="modal fade" id="modalCategorias" tabindex="-1" aria-labelledby="modalCategoriasLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCategoriasLabel">Categorías</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-
                 <div class="modal-body">
-
-                    <form class="mb-3 d-flex">
-                        <input type="text" class="form-control me-2" placeholder="Nueva categoría" required>
-                        <button type="button" class="btn btn-success">Agregar</button>
+                    <!-- Formulario agregar nueva categoría -->
+                    <form method="POST" class="mb-3 d-flex" action="">
+                        <input type="text" name="nombre_categoria" class="form-control me-2" placeholder="Nueva categoría" required>
+                        <button type="submit" name="agregar_categoria" class="btn btn-success">Agregar</button>
                     </form>
-
                     <hr>
-
                     <h6>Categorías existentes</h6>
                     <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Tarjetas Madre
-                            <button class="btn btn-sm btn-danger">Eliminar</button>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            USB's
-                            <button class="btn btn-sm btn-danger">Eliminar</button>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Teclados
-                            <button class="btn btn-sm btn-danger">Eliminar</button>
-                        </li>
+                        <?php if (!empty($categorias)): ?>
+                            <?php foreach ($categorias as $cat): ?>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <?= htmlspecialchars($cat['nombre']); ?>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCategoria<?= $cat['id']; ?>">
+                                            Editar
+                                        </button>
+                                        <a href="?eliminar_categoria=<?= $cat['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar esta categoría?')">Eliminar</a>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <li class="list-group-item">No hay categorías registradas.</li>
+                        <?php endif; ?>
                     </ul>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
-
             </div>
         </div>
     </div>
-    <!-- Modal Categorias Finaliza -->
+
+    <!-- Modales de edición de categorías -->
+    <?php if (!empty($categorias)): ?>
+        <?php foreach ($categorias as $cat): ?>
+            <div class="modal fade" id="editCategoria<?= $cat['id']; ?>" tabindex="-1" aria-labelledby="editCategoriaLabel<?= $cat['id']; ?>" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="POST" action="">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editCategoriaLabel<?= $cat['id']; ?>">Editar Categoría</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="id_categoria" value="<?= $cat['id']; ?>">
+                                <input type="text" name="nombre_categoria_edit" class="form-control" value="<?= htmlspecialchars($cat['nombre']); ?>" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" name="editar_categoria" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+
+
+
+
     <!-- MODALES DE PRODUCTOS FINALIZAN -->
 
 

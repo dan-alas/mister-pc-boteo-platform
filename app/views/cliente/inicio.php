@@ -1,3 +1,34 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+
+// Verificar si hay sesión iniciada
+if (!isset($_SESSION['usuario_id'])) {
+    die("Error: No se ha iniciado sesión.");
+}
+
+require_once __DIR__ . '/../../../config/config.php';
+
+// try {
+//     $cliente_id = $_SESSION['usuario_id'];
+
+//     // Equipos en reparación del cliente
+//     $stmt = $pdo->prepare("SELECT COUNT(*) FROM ordenes_reparacion WHERE cliente_id = :cliente_id AND estado = 'En reparación'");
+//     $stmt->execute(['cliente_id' => $cliente_id]);
+//     $equipos_reparacion = $stmt->fetchColumn();
+
+//     // Equipos reparados (terminados) del cliente
+//     $stmt = $pdo->prepare("SELECT COUNT(*) FROM ordenes_reparacion WHERE cliente_id = :cliente_id AND estado = 'Reparado'");
+//     $stmt->execute(['cliente_id' => $cliente_id]);
+//     $equipos_reparados = $stmt->fetchColumn();
+
+// } catch (PDOException $e) {
+//     die("Error al obtener los datos: " . $e->getMessage());
+// }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -32,13 +63,13 @@
                     <div class="col-md-5">
                         <div class="bg-yellow rounded p-4 text-center text-white">
                             <h5 class="fw-bold">Equipos en reparacion</h5>
-                            <p class="number-size mb-4">2</p>
+                            <p class="number-size mb-4"><?= $equipos_reparacion ?></p>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="bg-pink rounded p-4 text-center text-white">
                             <h5 class="fw-bold">Equipos reparados</h5>
-                            <p class="number-size mb-4">0</p>
+                            <p class="number-size mb-4"><?= $equipos_reparados ?></p>
                         </div>
                     </div>
 

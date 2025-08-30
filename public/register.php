@@ -1,9 +1,12 @@
 <?php
+session_start();
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/controllers/RegisterController.php';
 
-// Suponiendo que tienes el PDO creado y guardado en $pdo
 $controller = new RegisterController($pdo);
-$controller->procesarRegistro(); // Procesa POST si hay
+$controller->procesarRegistro();
 
-// Después, incluyes la vista que tiene el HTML del formulario:
+$error = $controller->error;
+$success = $controller->success;
+
 include __DIR__ . '/../app/views/auth/register.php';
