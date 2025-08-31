@@ -13,107 +13,127 @@
 
 <body class="vh-100 d-flex flex-column">
 
-    <?php include __DIR__ . '/../../../app/views/common/panel/header.php'; ?> <!-- Header -->
+    <?php include __DIR__ . '/../../../app/views/common/panel/header.php'; ?>
+    <!-- Header -->
 
     <div class="flex-grow-1 d-flex flex-column flex-md-row" style="min-height: 0;">
 
-        <?php include __DIR__ . '/../../../app/views/common/panel/aside_admin.php'; ?> <!-- Aside -->
+        <?php include __DIR__ . '/../../../app/views/common/panel/aside_admin.php'; ?>
+        <!-- Aside -->
 
         <!-- Productos Inicia -->
         <main class="flex-grow-1 overflow-auto p-4">
             <h4 class="text-center mb-4 fw-bold">NUESTROS PRODUCTOS</h4>
 
+            <!-- Filtrar por categoría -->
             <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-                <select class="form-select w-auto">
-                    <option>Filtrar por categoria</option>
-                    <option>Memorias</option>
-                    <option>Tarjetas madre</option>
-                </select>
-                <div class="mt-3 mt-md-auto">
-                    <a href="#" class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#modalCategorias"><i
-                            class="bi bi-plus"></i>Gestionar categorias</a>
+                <form method="get" class="mb-3">
+                    <select name="categoria_filtro" class="form-select" onchange="this.form.submit()">
+                        <option value="">-- Filtrar por categoría --</option>
+                        <?php foreach ($categorias as $cat): ?>
+                            <option value="<?= $cat['id'] ?>" <?= ($categoria_id == $cat['id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cat['nombre']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
 
-                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto"><i
-                            class="bi bi-plus"></i> Agregar producto</a>
+                <div class="mt-3 mt-md-auto">
+                    <!-- Botón Productos Desactivados -->
+                    <a class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalProductosDesactivados">
+                        <i class="bi bi-plus"></i> Productos Desactivados
+                    </a>
+
+                    <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarProveedor">
+                        <i class="bi bi-plus"></i> Proveedores
+                    </a>
+                    <a href="#" class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#modalCategorias">
+                        <i class="bi bi-plus"></i> Categorías
+                    </a>
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">
+                        <i class="bi bi-plus"></i> Agregar producto
+                    </a>
                 </div>
             </div>
 
+            <!-- Tabla productos -->
             <div class="table-responsive">
+                <!-- TABLA DE PRODUCTOS -->
                 <table class="table table-striped">
-                    <thead class="table-dark">
-                        <tr>
+                    <thead>
+                        <tr class="table-dark">
                             <th>ID</th>
                             <th>Imagen</th>
-                            <th>Nombre de producto</th>
+                            <th>Nombre</th>
+                            <th>Marca</th>
                             <th>Precio</th>
                             <th>Categoría</th>
+                            <th>Proveedor</th>
                             <th>Stock</th>
                             <th>Presentación</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <img src="img/imagen pc.png" class="img-thumbnail-fixed" alt="Producto">
-                            </td>
-                            <td>Tarjeta Madre Asus</td>
-                            <td><span>$</span>200</td>
-                            <td>Tarjetas madre</td>
-                            <td>5</td>
-                            <td>
-                                <span class="badge bg-secondary">Unidad</span>
-                            </td>
-                            <td>
-                                <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</a>
-                                |
-                                <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Eliminar</a>
-                            </td>
-                        </tr>
+                        <?php if (!empty($productos)): ?>
+                            <?php foreach ($productos as $prod): ?>
+                                <tr>
+                                    <td><?= $prod['id'] ?></td>
+                                    <td><img src="<?= $prod['imagen'] ?>" class="img-thumbnail-fixed" alt="Producto"></td>
+                                    <td><?= htmlspecialchars($prod['nombre']) ?></td>
+                                    <td><?= htmlspecialchars($prod['marca']) ?></td>
+                                    <td>$<?= number_format($prod['precio'], 2) ?></td>
+                                    <td><?= htmlspecialchars($prod['categoria_nombre']) ?></td>
+                                    <td><?= htmlspecialchars($prod['proveedor_nombre']) ?></td>
+                                    <td><?= $prod['stock'] ?></td>
+                                    <td>
+                                        <span class="badge bg-secondary"><?= htmlspecialchars($prod['tipo_presentacion']) ?></span>
+                                        <?php if (strtolower($prod['tipo_presentacion']) === 'caja'): ?>
+                                            <br>
+                                            <small class="text-muted">
+                                                Unidades por caja: <?= $prod['unidades_por_presentacion'] ?? 'desconocidas' ?>
+                                                - Total unidades disponibles: <?= $prod['stock'] * ($prod['unidades_por_presentacion'] ?? 0) ?>
+                                            </small>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto<?= $prod['id'] ?>">Editar</a>
 
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <img src="img/caja_clavos.png" class="img-thumbnail-fixed" alt="Producto">
-                            </td>
-                            <td>Caja de clavos</td>
-                            <td><span>$</span>8</td>
-                            <td>Ferretería</td>
-                            <td>10</td>
-                            <td>
-                                <span class="badge bg-info text-dark">Caja</span><br>
-                                <small class="text-muted">100 unidades por caja</small>
-                            </td>
-                            <td>
-                                <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</a>
-                                |
-                                <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Eliminar</a>
-                            </td>
-                        </tr>
+                                        |
+                                        <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#modalEliminarProducto<?= $prod['id'] ?>">Eliminar</a>
+                                    </td>
+                                </tr>
 
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <img src="img/rollo_papel.png" class="img-thumbnail-fixed" alt="Producto">
-                            </td>
-                            <td>Cartón de papel</td>
-                            <td><span>$</span>15</td>
-                            <td>Oficina</td>
-                            <td>5</td>
-                            <td>
-                                <span class="badge bg-info text-dark">Caja</span><br>
-                                <small class="text-muted">Unidades desconocidas</small>
-                            </td>
-                            <td>
-                                <a href="#" class="text-success" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</a>
-                                |
-                                <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Eliminar</a>
-                            </td>
-                        </tr>
+                                <!-- Modal eliminar producto -->
+                                <div class="modal fade" id="modalEliminarProducto<?= $prod['id'] ?>" tabindex="-1" aria-labelledby="modalEliminarLabel<?= $prod['id'] ?>" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalEliminarLabel<?= $prod['id'] ?>">Confirmar eliminación</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Está seguro que desea eliminar el producto <strong><?= htmlspecialchars($prod['nombre']) ?></strong>?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <a href="productos.php?eliminar_producto=<?= $prod['id'] ?>&categoria_filtro=<?= $categoria_id ?>" class="btn btn-danger">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="9" class="text-center">No hay productos para esta categoría.</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
+
+
 
         </main>
         <!-- Productos Finaliza -->
@@ -134,58 +154,78 @@
                 </div>
 
                 <div class="modal-body">
-                    <form>
+                    <form method="POST">
+
                         <div class="mb-3">
                             <label class="form-label">Nombre del producto</label>
-                            <input type="text" class="form-control" placeholder="Ej: Tarjeta Madre Asus">
+                            <input type="text" name="nombre_producto" class="form-control"
+                                placeholder="Ej: Tarjeta Madre Asus" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="marca_producto" class="form-label">Marca</label>
+                            <input type="text" name="marca_producto" id="marca_producto" class="form-control" placeholder="Marca del producto">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Proveedor</label>
+                            <select name="proveedor_id" class="form-select" required>
+                                <option selected disabled>Seleccione un proveedor</option>
+                                <?php foreach ($proveedores as $prov): ?>
+                                    <option value="<?= $prov['id']; ?>"><?= htmlspecialchars($prov['nombre']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Precio por unidad o caja ($)</label>
-                            <input type="number" class="form-control" placeholder="Ej: 200">
+                            <input type="number" name="precio_producto" class="form-control" placeholder="Ej: 200"
+                                required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Imagen del producto</label>
-                            <input type="file" class="form-control">
+                            <label class="form-label">Imagen del producto (URL)</label>
+                            <input type="text" name="imagen_producto" class="form-control" placeholder="Ej: url imagen">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Cantidad en stock</label>
-                            <input type="number" class="form-control" placeholder="Ej: 10">
+                            <input type="number" name="stock_producto" class="form-control" placeholder="Ej: 10"
+                                required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Categoría</label>
-                            <select class="form-select">
+                            <select name="categoria_id" class="form-select" required>
                                 <option selected disabled>Seleccione una categoría</option>
-                                <option value="usb">Memorias USB</option>
-                                <option value="motherboard">Tarjetas Madre</option>
-                                <option value="ram">Memoria RAM</option>
-                                <option value="hdd">Discos Duros</option>
-                                <option value="otros">Otros</option>
+                                <?php foreach ($categorias as $cat): ?>
+                                    <option value="<?= $cat['id']; ?>"><?= htmlspecialchars($cat['nombre']); ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
-                        <!-- Nuevo: Tipo de presentación -->
                         <div class="mb-3">
                             <label class="form-label">Tipo de presentación</label>
-                            <select class="form-select" id="tipoPresentacion" onchange="toggleUnidadesPorCaja()">
+                            <select name="tipo_presentacion" id="tipoPresentacion" class="form-select"
+                                onchange="toggleUnidadesPorCaja()" required>
                                 <option value="unidad">Unidad</option>
                                 <option value="caja">Caja</option>
                             </select>
                         </div>
 
-                        <!-- Nuevo: Campo opcional para unidades por caja -->
                         <div class="mb-3" id="campoUnidadesPorCaja" style="display: none;">
-                            <label class="form-label">Unidades por caja <small class="text-muted">(opcional)</small></label>
-                            <input type="number" class="form-control" placeholder="Ej: 24">
+                            <label class="form-label">Unidades por caja <small
+                                    class="text-muted">(opcional)</small></label>
+                            <input type="number" name="unidades_por_presentacion" class="form-control"
+                                placeholder="Ej: 24">
                         </div>
 
                         <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Agregar producto</button>
+                            <button type="submit" name="agregar_producto" class="btn btn-primary">Agregar
+                                producto</button>
                         </div>
+
                     </form>
+
                 </div>
 
             </div>
@@ -193,64 +233,109 @@
     </div>
     <!-- Modal agregar producto finaliza -->
 
-    <!-- Modal editar producto inicia -->
-    <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+    <!-- Modal Editar Producto -->
+    <?php foreach ($productos as $prod): ?>
+        <div class="modal fade" id="modalEditarProducto<?= $prod['id'] ?>" tabindex="-1" aria-labelledby="modalEditarProductoLabel<?= $prod['id'] ?>" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarProductoLabel">Editar Producto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditarProductoLabel<?= $prod['id'] ?>">Editar Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form method="POST">
+                            <input type="hidden" name="id_producto" value="<?= $prod['id'] ?>">
+
+                            <div class="mb-3">
+                                <label class="form-label">Nombre del producto</label>
+                                <input type="text" name="nombre_producto" class="form-control"
+                                    value="<?= htmlspecialchars($prod['nombre']) ?>" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="marca_producto<?= $prod['id'] ?>" class="form-label">Marca</label>
+                                <input type="text" name="marca_producto" id="marca_producto<?= $prod['id'] ?>" class="form-control"
+                                    value="<?= htmlspecialchars($prod['marca']) ?>" placeholder="Marca del producto">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Proveedor</label>
+                                <select name="proveedor_id" class="form-select" required>
+                                    <option disabled>Seleccione un proveedor</option>
+                                    <?php foreach ($proveedores as $prov): ?>
+                                        <option value="<?= $prov['id'] ?>" <?= $prod['proveedor_id'] == $prov['id'] ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($prov['nombre']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Precio por unidad o caja ($)</label>
+                                <input type="number" name="precio_producto" class="form-control"
+                                    value="<?= $prod['precio'] ?>" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Imagen del producto (URL)</label>
+                                <input type="text" name="imagen_producto" class="form-control"
+                                    value="<?= htmlspecialchars($prod['imagen']) ?>" placeholder="Ej: url imagen">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Cantidad en stock</label>
+                                <input type="number" name="stock_producto" class="form-control"
+                                    value="<?= $prod['stock'] ?>" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Categoría</label>
+                                <select name="categoria_id" class="form-select" required>
+                                    <option disabled>Seleccione una categoría</option>
+                                    <?php foreach ($categorias as $cat): ?>
+                                        <option value="<?= $cat['id'] ?>" <?= $prod['categoria_id'] == $cat['id'] ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($cat['nombre']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de presentación</label>
+                                <select name="tipo_presentacion" class="form-select"
+                                    onchange="toggleUnidadesPorCajaEditar(<?= $prod['id'] ?>)" required>
+                                    <option value="unidad" <?= $prod['tipo_presentacion'] == 'unidad' ? 'selected' : '' ?>>Unidad</option>
+                                    <option value="caja" <?= $prod['tipo_presentacion'] == 'caja' ? 'selected' : '' ?>>Caja</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3" id="campoUnidadesPorCajaEditar<?= $prod['id'] ?>"
+                                style="<?= $prod['tipo_presentacion'] == 'caja' ? '' : 'display:none;' ?>">
+                                <label class="form-label">Unidades por caja <small class="text-muted">(opcional)</small></label>
+                                <input type="number" name="unidades_por_presentacion" class="form-control"
+                                    value="<?= $prod['unidades_por_presentacion'] ?>">
+                            </div>
+
+                            <div class="text-end">
+                                <button type="submit" name="editar_producto" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
-
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label">Nombre del producto</label>
-                            <input type="text" class="form-control" value="Tarjeta Madre Asus">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Precio por unidad ($)</label>
-                            <input type="number" class="form-control" value="200">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Imagen del producto</label>
-                            <input type="file" class="form-control">
-                            <div class="mt-2 small text-muted">Imagen actual: tarjeta_madre_asus.png</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Cantidad en stock</label>
-                            <input type="number" class="form-control" value="5">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Categoría</label>
-                            <select class="form-select">
-                                <option value="usb">Memorias USB</option>
-                                <option value="motherboard" selected>Tarjetas Madre</option>
-                                <option value="ram">Memoria RAM</option>
-                                <option value="hdd">Discos Duros</option>
-                                <option value="otros">Otros</option>
-                            </select>
-                        </div>
-
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                        </div>
-                    </form>
-                </div>
-
             </div>
         </div>
-    </div>
-    <!-- Modal elminar producto Finaliza -->
+    <?php endforeach; ?>
+    <!-- Modal Editar Producto finaliza -->
+
+
+
 
     <!-- Modal elminar producto Inicia -->
-    <div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+
+    <div class="modal fade" id="confirmarEliminar<?= $prod['id'] ?>" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -258,11 +343,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Está seguro que desea eliminar el producto?
+                    ¿Está seguro que desea eliminar el producto <strong><?= htmlspecialchars($prod['nombre']) ?></strong>?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
+                    <a href="productos.php?eliminar_producto=<?= $prod['id'] ?>" class="btn btn-danger">Eliminar</a>
                 </div>
             </div>
         </div>
@@ -270,7 +355,8 @@
     <!-- Modal elminar producto Finaliza -->
 
     <!-- Modal Categorias -->
-    <div class="modal fade" id="modalCategorias" tabindex="-1" aria-labelledby="modalCategoriasLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCategorias" tabindex="-1" aria-labelledby="modalCategoriasLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
@@ -280,7 +366,8 @@
                 <div class="modal-body">
                     <!-- Formulario agregar nueva categoría -->
                     <form method="POST" class="mb-3 d-flex" action="">
-                        <input type="text" name="nombre_categoria" class="form-control me-2" placeholder="Nueva categoría" required>
+                        <input type="text" name="nombre_categoria" class="form-control me-2"
+                            placeholder="Nueva categoría" required>
                         <button type="submit" name="agregar_categoria" class="btn btn-success">Agregar</button>
                     </form>
                     <hr>
@@ -291,10 +378,12 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <?= htmlspecialchars($cat['nombre']); ?>
                                     <div>
-                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCategoria<?= $cat['id']; ?>">
+                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editCategoria<?= $cat['id']; ?>">
                                             Editar
                                         </button>
-                                        <a href="?eliminar_categoria=<?= $cat['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar esta categoría?')">Eliminar</a>
+                                        <a href="?eliminar_categoria=<?= $cat['id']; ?>" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('¿Seguro que deseas eliminar esta categoría?')">Eliminar</a>
                                     </div>
                                 </li>
                             <?php endforeach; ?>
@@ -313,7 +402,8 @@
     <!-- Modales de edición de categorías -->
     <?php if (!empty($categorias)): ?>
         <?php foreach ($categorias as $cat): ?>
-            <div class="modal fade" id="editCategoria<?= $cat['id']; ?>" tabindex="-1" aria-labelledby="editCategoriaLabel<?= $cat['id']; ?>" aria-hidden="true">
+            <div class="modal fade" id="editCategoria<?= $cat['id']; ?>" tabindex="-1"
+                aria-labelledby="editCategoriaLabel<?= $cat['id']; ?>" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form method="POST" action="">
@@ -323,7 +413,8 @@
                             </div>
                             <div class="modal-body">
                                 <input type="hidden" name="id_categoria" value="<?= $cat['id']; ?>">
-                                <input type="text" name="nombre_categoria_edit" class="form-control" value="<?= htmlspecialchars($cat['nombre']); ?>" required>
+                                <input type="text" name="nombre_categoria_edit" class="form-control"
+                                    value="<?= htmlspecialchars($cat['nombre']); ?>" required>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -335,6 +426,91 @@
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+    <!-- Modal agregar proveedor inicia -->
+    <div class="modal fade" id="modalAgregarProveedor" tabindex="-1" aria-labelledby="modalAgregarProveedorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarProveedorLabel">Agregar Proveedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="POST" action="">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del proveedor</label>
+                            <input type="text" name="nombre_proveedor" class="form-control" placeholder="Ej: Proveedor XYZ" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" name="telefono_proveedor" class="form-control" placeholder="Ej: 1234-5678">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Correo electrónico</label>
+                            <input type="email" name="email_proveedor" class="form-control" placeholder="ejemplo@correo.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dirección</label>
+                            <input type="text" name="direccion_proveedor" class="form-control" placeholder="Ej: Calle #123, Ciudad">
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" name="agregar_proveedor" class="btn btn-primary">Agregar proveedor</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal agregar proveedor finaliza -->
+
+    <!-- Modal Productos Desactivados -->
+    <div class="modal fade" id="modalProductosDesactivados" tabindex="-1" aria-labelledby="modalProductosDesactivadosLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalProductosDesactivadosLabel">Productos Desactivados</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($productos_desactivados)): ?>
+                                <?php foreach ($productos_desactivados as $prod): ?>
+                                    <tr>
+                                        <td><?= $prod['id'] ?></td>
+                                        <td><?= htmlspecialchars($prod['nombre']) ?></td>
+                                        <td>
+                                            <a href="productos.php?activar_producto=<?= $prod['id'] ?>" class="btn btn-success btn-sm">
+                                                Activar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="3" class="text-center">No hay productos desactivados.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 
@@ -350,6 +526,18 @@
         const tipo = document.getElementById('tipoPresentacion').value;
         const campo = document.getElementById('campoUnidadesPorCaja');
         campo.style.display = (tipo === 'caja') ? 'block' : 'none';
+    }
+
+    function toggleUnidadesPorCajaEditar(id) {
+        const campo = document.getElementById("campoUnidadesPorCajaEditar" + id);
+        const select = event.target;
+
+        if (select.value === "caja") {
+            campo.style.display = "block";
+        } else {
+            campo.style.display = "none";
+            campo.querySelector("input").value = ""; // limpiar si cambia a unidad
+        }
     }
 </script>
 
