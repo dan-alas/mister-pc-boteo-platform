@@ -53,21 +53,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="./equipos/equipos-ver.php">PC-DANIEL</a></td>
-                            <td>Daniel Alas</td>
-                            <td>Asus Vivobook</td>
-                            <td>06/07/2024</td>
-                            <td>Cesar Ramirez</td>
-                            <td>Software</td>
-                            <td>En proceso</td>
-                            <td><a href="./equipos/equipos-editar.php" class="text-green">Editar</a> <a href="#"
-                                    class="text-danger" data-bs-toggle="modal"
-                                    data-bs-target="#confirmarEliminar">Eliminar</a>
-                            </td>
-                        </tr>
-
+                        <?php foreach ($equipos as $eq): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($eq['id']) ?></td>
+                                <td><a href="./equipos/equipos-ver.php?id=<?= $eq['id'] ?>"><?= htmlspecialchars($eq['nombre_equipo']) ?></a></td>
+                                <td><?= htmlspecialchars($eq['propietario']) ?></td>
+                                <td><?= htmlspecialchars($eq['marca']) ?></td>
+                                <td><?= htmlspecialchars(date('d/m/Y', strtotime($eq['fecha_ingreso']))) ?></td>
+                                <td><?= htmlspecialchars($eq['tecnico'] ?? '-') ?></td>
+                                <td><?= htmlspecialchars($eq['tipo_problema']) ?></td>
+                                <td><?= htmlspecialchars($eq['estado_actual']) ?></td>
+                                <td>
+                                    <a href="./equipos/equipos-editar.php?id=<?= $eq['id'] ?>" class="text-success">Editar</a>
+                                    <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar<?= $eq['id'] ?>">Eliminar</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

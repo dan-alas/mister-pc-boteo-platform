@@ -1,14 +1,18 @@
 <?php
+
 require_once __DIR__ . '/../models/User.php';
 
-class AuthController {
+class AuthController
+{
     private $userModel;
 
-    public function __construct($pdo) {
+    public function __construct($pdo)
+    {
         $this->userModel = new User($pdo);
     }
 
-    public function login($postData) {
+    public function login($postData)
+    {
         $email = trim($postData['email'] ?? '');
         $password = trim($postData['password'] ?? '');
 

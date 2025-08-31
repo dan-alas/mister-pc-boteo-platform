@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../models/User.php';
 
 class RegisterController
@@ -18,7 +19,7 @@ class RegisterController
 
         $nombre = trim($_POST['name'] ?? '');
         $email = trim($_POST['email'] ?? '');
-        $telefono = trim($_POST['phone'] ?? '');   // <-- NUEVO
+        $telefono = trim($_POST['phone'] ?? '');
         $password = $_POST['password'] ?? '';
 
         if (!$nombre || !$email || !$telefono || !$password) {
