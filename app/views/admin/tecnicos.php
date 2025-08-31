@@ -17,7 +17,7 @@
 
     <div class="flex-grow-1 d-flex flex-column flex-md-row" style="min-height: 0;">
 
-       <?php include __DIR__ . '/../../../app/views/common/panel/aside_admin.php'; ?> <!-- Aside -->
+        <?php include __DIR__ . '/../../../app/views/common/panel/aside_admin.php'; ?> <!-- Aside -->
 
         <!-- Tecnicos Inicia -->
         <main class="flex-grow-1 overflow-auto p-4">
@@ -36,25 +36,27 @@
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
-                            <th>Especialidad</th>
-                            <th>Correo Electronico</th>
-                            <th>Telefono</th>
+                            <th>Correo Electrónico</th>
+                            <th>Teléfono</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Daniel Alas</td>
-                            <td>Software</td>
-                            <td>alasdaniel@gmail.com</td>
-                            <td>7070-7070</td>
-                            <td>Activo</td>
-                            <td><a href="#" class="text-green" data-bs-toggle="modal" data-bs-target="#modalEditarTecnico">Editar</a>
-                                <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">Eliminar</a>
-                            </td>
-                        </tr>
+                        <?php if (!empty($usuarios)): ?>
+                            <?php foreach ($usuarios as $user): ?>
+                                <tr>
+                                    <td><?= $user['id'] ?></td>
+                                    <td><?= htmlspecialchars($user['nombre_completo']) ?></td>
+                                    <td><?= htmlspecialchars($user['email']) ?></td>
+                                    <td><?= htmlspecialchars($user['telefono']) ?></td>
+                                    <td><?= $user['is_active'] ? 'Activo' : 'Inactivo' ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="text-center">No hay técnicos registrados.</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -63,9 +65,8 @@
     </div>
 
     <!-- MODALES INICIAN -->
-    <!-- Modal Agregar tecnico inicia -->
-    <div class="modal fade" id="modalAgregarTecnico" tabindex="-1" aria-labelledby="modalAgregarTecnicoLabel"
-        aria-hidden="true">
+    <!-- Modal Agregar Técnico inicia -->
+    <div class="modal fade" id="modalAgregarTecnico" tabindex="-1" aria-labelledby="modalAgregarTecnicoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
@@ -75,34 +76,37 @@
                 </div>
 
                 <div class="modal-body">
-                    <form>
+                    <?php if (!empty($error)) : ?>
+                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($success)) : ?>
+                        <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
+                    <?php endif; ?>
+
+                    <form method="POST">
                         <div class="mb-3">
                             <label class="form-label">Nombre completo</label>
-                            <input type="text" class="form-control" placeholder="Ej: Juan Pérez">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Especialidad</label>
-                            <input type="text" class="form-control" placeholder="Ej: Hardware, Software">
+                            <input type="text" class="form-control" name="nombre_tecnico" placeholder="Ej: Juan Pérez" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Correo electrónico</label>
-                            <input type="email" class="form-control" placeholder="Ej: juan@mail.com">
+                            <input type="email" class="form-control" name="email_tecnico" placeholder="Ej: juan@mail.com" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Teléfono</label>
-                            <input type="tel" class="form-control" placeholder="Ej: 1234-5678">
+                            <input type="tel" class="form-control" name="telefono_tecnico" placeholder="Ej: 1234-5678" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Contraseña</label>
-                            <input type="password" class="form-control">
+                            <input type="password" class="form-control" name="password_tecnico" required minlength="6">
                         </div>
 
                         <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Agregar técnico</button>
+                            <button type="submit" name="agregar_tecnico" class="btn btn-primary">Agregar técnico</button>
                         </div>
                     </form>
                 </div>
@@ -110,7 +114,8 @@
             </div>
         </div>
     </div>
-    <!-- Modal Agregar tecnico finaliza -->
+    <!-- Modal Agregar Técnico finaliza -->
+
 
     <!-- Modal Eliminar tecnico inicia -->
     <div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">

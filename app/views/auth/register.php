@@ -50,6 +50,17 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="phone" class="form-label">Número de teléfono</label>
+                    <input type="tel" class="form-control" id="phone" name="phone"
+                        pattern="[0-9]{4}-[0-9]{4}"
+                        required
+                        value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
+                    <div class="invalid-feedback">Ingresa un número válido con el formato 0000-0000.</div>
+                </div>
+
+
+
+                <div class="mb-3">
                     <label for="email" class="form-label">Dirección de correo electrónico</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="nombre@dominio.com" required
                         value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">

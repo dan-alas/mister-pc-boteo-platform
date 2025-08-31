@@ -13,23 +13,23 @@ $tecnico_id = $_SESSION['usuario_id']; // <-- usa el ID del técnico que inició
 
 try {
     // Equipos asignados al técnico
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM ordenes_reparacion WHERE tecnico_id = :tecnico_id AND estado = 'En reparación'");
-    $stmt->execute(['tecnico_id' => $tecnico_id]);
-    $equipos_asignados = $stmt->fetchColumn();
+    // $stmt = $pdo->prepare("SELECT COUNT(*) FROM ordenes_reparacion WHERE tecnico_id = :tecnico_id AND estado = 'En reparación'");
+    // $stmt->execute(['tecnico_id' => $tecnico_id]);
+    // $equipos_asignados = $stmt->fetchColumn();
 
-    // Equipos terminados
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM ordenes_reparacion WHERE tecnico_id = :tecnico_id AND estado = 'Terminado'");
-    $stmt->execute(['tecnico_id' => $tecnico_id]);
-    $equipos_terminados = $stmt->fetchColumn();
+    // // Equipos terminados
+    // $stmt = $pdo->prepare("SELECT COUNT(*) FROM ordenes_reparacion WHERE tecnico_id = :tecnico_id AND estado = 'Terminado'");
+    // $stmt->execute(['tecnico_id' => $tecnico_id]);
+    // $equipos_terminados = $stmt->fetchColumn();
 
-    // Equipos reparados
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM ordenes_reparacion WHERE tecnico_id = :tecnico_id AND estado = 'Reparado'");
-    $stmt->execute(['tecnico_id' => $tecnico_id]);
-    $equipos_reparados = $stmt->fetchColumn();
+    // // Equipos reparados
+    // $stmt = $pdo->prepare("SELECT COUNT(*) FROM ordenes_reparacion WHERE tecnico_id = :tecnico_id AND estado = 'Reparado'");
+    // $stmt->execute(['tecnico_id' => $tecnico_id]);
+    // $equipos_reparados = $stmt->fetchColumn();
 
-    // Productos en almacén
-    $stmt = $pdo->query("SELECT COUNT(*) FROM productos");
-    $productos_almacen = $stmt->fetchColumn();
+    // // Productos en almacén
+    // $stmt = $pdo->query("SELECT COUNT(*) FROM productos");
+    // $productos_almacen = $stmt->fetchColumn();
 
 } catch (PDOException $e) {
     die("Error al obtener los datos: " . $e->getMessage());

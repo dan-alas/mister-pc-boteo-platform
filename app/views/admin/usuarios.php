@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../assets/css/paneles.css">
 </head>
- 
+
 <body>
 
     <?php include __DIR__ . '/../../../app/views/common/panel/header.php'; ?> <!-- Header -->
@@ -28,29 +28,26 @@
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
-                            <th>Correo Electronico</th>
-                            <th>Telefono</th>
-                            <th>Equipos en reparación</th>
-                            <th>Reparados</th>
+                            <th>Correo Electrónico</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
                         </tr>
-                    </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Daniel Alas</td>
-                            <td>alasdaniel@gmail.com</td>
-                            <td>7070-7070</td>
-                            <td>Ninguno</td>
-                            <td>Dell latitude, Asus Vivobook</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Daniel Alas</td>
-                            <td>alasdaniel@gmail.com</td>
-                            <td>7070-7070</td>
-                            <td>Ninguno</td>
-                            <td>Dell latitude, Asus Vivobook</td>
-                        </tr>
+                        <?php if (!empty($usuarios)): ?>
+                            <?php foreach ($usuarios as $user): ?>
+                                <tr>
+                                    <td><?= $user['id'] ?></td>
+                                    <td><?= htmlspecialchars($user['nombre_completo']) ?></td>
+                                    <td><?= htmlspecialchars($user['email']) ?></td>
+                                    <td><?= htmlspecialchars($user['telefono']) ?></td>
+                                    <td><?= $user['is_active'] ? 'Activo' : 'Inactivo' ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="text-center">No hay usuarios registrados.</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
