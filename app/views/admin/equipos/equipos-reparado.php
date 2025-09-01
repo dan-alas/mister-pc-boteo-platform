@@ -32,20 +32,8 @@
 
             <!-- Empieza formulario  -->
             <div>
-                <?php if (!empty($error)): ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Error:</strong> <?= htmlspecialchars($error) ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php elseif (!empty($success)): ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Éxito:</strong> <?= htmlspecialchars($success) ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php endif; ?>
 
                 <form method="POST" class="border p-4 rounded">
-
                     <h5 class="fw-bold">MISTER PC BOTEO</h5>
                     <p class="mb-2">REGISTRO DE MANTENIMIENTO CORRECTIVO Y PREVENTIVO</p>
                     <p class="mb-4">Formulario exclusivo para añadir equipos que ya han sido reparados en el pasado, o para equipos reparados en el instante.</p>
@@ -93,16 +81,6 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4 mt-3">
-                            <label class="form-label fw-semibold">Estado actual: </label>
-                            <select name="estado_actual" class="form-select" required>
-                                <option selected disabled>Selecciona el estado</option>
-                                <option value="no_iniciado">No iniciado</option>
-                                <option value="en_proceso">En proceso</option>
-                                <option value="finalizado">Finalizado</option>
-                                <option value="entregado">Entregado</option>
-                            </select>
-                        </div>
                     </div>
 
                     <!-- II. Datos previos del equipo -->

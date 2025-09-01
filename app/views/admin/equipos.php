@@ -24,11 +24,14 @@
             <h4 class="text-center mb-4 fw-bold">EQUIPOS EN REPARACIÓN</h4>
 
             <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-                <select class="form-select w-auto">
-                    <option>Filtrar por tipo</option>
-                    <option>Software</option>
-                    <option>Hardware</option>
-                </select>
+                <form method="get" class="mb-3">
+                    <select name="tipo_filtro" class="form-select" onchange="this.form.submit()">
+                        <option value="">-- Filtrar por tipo --</option>
+                        <option value="hardware" <?= (($_GET['tipo_filtro'] ?? '') === 'hardware') ? 'selected' : '' ?>>Hardware</option>
+                        <option value="software" <?= (($_GET['tipo_filtro'] ?? '') === 'software') ? 'selected' : '' ?>>Software</option>
+                        <option value="ambos" <?= (($_GET['tipo_filtro'] ?? '') === 'ambos') ? 'selected' : '' ?>>Ambos</option>
+                    </select>
+                </form>
                 <div class="mt-3 mt-md-auto">
                     <a href="./equipos/equipos-agregar.php" class="btn btn-primary"><i class="bi bi-plus"></i>Agregar equipo</a>
                     <a href="./equipos/equipos-reparado.php" class="btn btn-success"><i class="bi bi-check2"></i>Reparado</a>
@@ -56,7 +59,7 @@
                         <?php foreach ($equipos as $eq): ?>
                             <tr>
                                 <td><?= htmlspecialchars($eq['id']) ?></td>
-                                <td><a href="./equipos/equipos-ver.php?id=<?= $eq['id'] ?>"><?= htmlspecialchars($eq['nombre_equipo']) ?></a></td>
+                                <td><?= htmlspecialchars($eq['nombre_equipo']) ?></td>
                                 <td><?= htmlspecialchars($eq['propietario']) ?></td>
                                 <td><?= htmlspecialchars($eq['marca']) ?></td>
                                 <td><?= htmlspecialchars(date('d/m/Y', strtotime($eq['fecha_ingreso']))) ?></td>
@@ -64,10 +67,31 @@
                                 <td><?= htmlspecialchars($eq['tipo_problema']) ?></td>
                                 <td><?= htmlspecialchars($eq['estado_actual']) ?></td>
                                 <td>
-                                    <a href="./equipos/equipos-editar.php?id=<?= $eq['id'] ?>" class="text-success">Editar</a>
-                                    <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar<?= $eq['id'] ?>">Eliminar</a>
+                                    <a href="./equipos/equipos-editar.php?id=<?= $eq['id'] ?>" class="text-success">Actualizar</a>
+                                    <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar<?= $eq['id'] ?>">
+                                        Eliminar
+                                    </a>
                                 </td>
                             </tr>
+
+                            <!-- Modal dentro del foreach -->
+                            <div class="modal fade" id="confirmarEliminar<?= $eq['id'] ?>" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel">Confirmar eliminación</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Está seguro que desea eliminar el equipo <strong><?= htmlspecialchars($eq['nombre_equipo']) ?></strong>?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a href="equipos.php?eliminar=<?= $eq['id'] ?>" class="btn btn-danger">Eliminar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -77,23 +101,7 @@
 
     </div>
     <!-- MODALES INICIAN -->
-    <div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Confirmar eliminación</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    ¿Está seguro que desea eliminar este equipo?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- MODALES FINALIZAN -->
 
 </body>

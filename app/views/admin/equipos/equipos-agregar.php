@@ -32,13 +32,6 @@
 
             <!-- Empieza formulario  -->
             <div>
-                <?php if (!empty($error)): ?>
-                    <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-                <?php endif; ?>
-
-                <?php if (!empty($success)): ?>
-                    <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
-                <?php endif; ?>
 
                 <form method="POST" class="border p-4 rounded">
                     <h5 class="fw-bold">MISTER PC BOTEO</h5>
@@ -68,7 +61,7 @@
                                 <option selected disabled>Selecciona el tipo</option>
                                 <option value="Hardware">Hardware</option>
                                 <option value="Software">Software</option>
-                                <option value="Hardware y Software">Hardware y Software</option>
+                                <option value="ambos">Hardware y Software</option>
                             </select>
                         </div>
 

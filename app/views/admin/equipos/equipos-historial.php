@@ -24,11 +24,14 @@
             <h4 class="text-center mb-4 fw-bold">HISTORIAL EQUIPOS REPARADOS</h4>
 
             <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-                <select class="form-select w-auto">
-                    <option>Filtrar por tipo</option>
-                    <option>Software</option>
-                    <option>Hardware</option>
-                </select>
+                <form method="get" class="mb-3">
+                    <select name="tipo_filtro" class="form-select" onchange="this.form.submit()">
+                        <option value="">-- Filtrar por tipo --</option>
+                        <option value="hardware" <?= (($_GET['tipo_filtro'] ?? '') === 'hardware') ? 'selected' : '' ?>>Hardware</option>
+                        <option value="software" <?= (($_GET['tipo_filtro'] ?? '') === 'software') ? 'selected' : '' ?>>Software</option>
+                        <option value="ambos" <?= (($_GET['tipo_filtro'] ?? '') === 'ambos') ? 'selected' : '' ?>>Ambos</option>
+                    </select>
+                </form>
                 <div class="mt-3 mt-md-auto">
                     <a href="../equipos.php" class="btn btn-warning text-white"><i
                             class="bi bi-box-arrow-left me-1"></i>Regresar</a>
@@ -51,19 +54,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>PC-DANIEL</td>
-                            <td>Daniel Alas</td>
-                            <td>Asus Vivobook</td>
-                            <td>06/07/2024</td>
-                            <td>06/09/2024</td>
-                            <td>Mr Boteo</td>
-                            <td>Software</td>
-                            <td><a href="#" class="text-green">Descargar PDF</a></td>
-                        </tr>
-
-                        <!-- Más filas -->
+                        <?php foreach ($equipos as $equipo): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($equipo['id']) ?></td>
+                                <td><?= htmlspecialchars($equipo['nombre_equipo']) ?></td>
+                                <td><?= htmlspecialchars($equipo['propietario']) ?></td>
+                                <td><?= htmlspecialchars($equipo['marca']) ?></td>
+                                <td><?= htmlspecialchars($equipo['fecha_ingreso']) ?></td>
+                                <td><?= htmlspecialchars($equipo['fecha_finalizacion']) ?></td>
+                                <td><?= htmlspecialchars($equipo['tecnico']) ?></td>
+                                <td><?= htmlspecialchars($equipo['tipo_problema']) ?></td>
+                                <td><a href="#" class="text-green">Descargar PDF</a></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
