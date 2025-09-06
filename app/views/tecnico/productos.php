@@ -24,72 +24,66 @@
             <h4 class="text-center mb-4 fw-bold">PRODUCTOS Y REPUESTOS DISPONIBLES</h4>
 
             <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-                <select class="form-select w-auto">
-                    <option>Filtrar por categoria</option>
-                    <option>Memorias</option>
-                    <option>Tarjetas madre</option>
-                </select>
+                <form method="get" class="mb-3">
+                    <select name="categoria_filtro" class="form-select" onchange="this.form.submit()">
+                        <option value="">-- Filtrar por categoría --</option>
+                        <?php foreach ($categorias as $cat): ?>
+                            <option value="<?= $cat['id'] ?>" <?= ($categoria_id == $cat['id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cat['nombre']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
             </div>
 
             <div class="table-responsive">
+                <!-- TABLA DE PRODUCTOS -->
                 <table class="table table-striped">
-                    <thead class="table-dark">
-                        <tr>
+                    <thead>
+                        <tr class="table-dark">
                             <th>ID</th>
                             <th>Imagen</th>
-                            <th>Nombre de producto</th>
+                            <th>Nombre</th>
+                            <th>Marca</th>
                             <th>Precio</th>
                             <th>Categoría</th>
+                            <th>Proveedor</th>
                             <th>Stock</th>
                             <th>Presentación</th>
-
+                           
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <img src="img/imagen pc.png" class="img-thumbnail-fixed" alt="Producto">
-                            </td>
-                            <td>Tarjeta Madre Asus</td>
-                            <td><span>$</span>200</td>
-                            <td>Tarjetas madre</td>
-                            <td>5</td>
-                            <td>
-                                <span class="badge bg-secondary">Unidad</span>
-                            </td>
+                        <?php if (!empty($productos)): ?>
+                            <?php foreach ($productos as $prod): ?>
+                                <tr>
+                                    <td><?= $prod['id'] ?></td>
+                                    <td><img src="<?= $prod['imagen'] ?>" class="img-thumbnail-fixed" alt="Producto"></td>
+                                    <td><?= htmlspecialchars($prod['nombre']) ?></td>
+                                    <td><?= htmlspecialchars($prod['marca']) ?></td>
+                                    <td>$<?= number_format($prod['precio'], 2) ?></td>
+                                    <td><?= htmlspecialchars($prod['categoria_nombre']) ?></td>
+                                    <td><?= htmlspecialchars($prod['proveedor_nombre']) ?></td>
+                                    <td><?= $prod['stock'] ?></td>
+                                    <td>
+                                        <span class="badge bg-secondary"><?= htmlspecialchars($prod['tipo_presentacion']) ?></span>
+                                        <?php if (strtolower($prod['tipo_presentacion']) === 'caja'): ?>
+                                            <br>
+                                            <small class="text-muted">
+                                                Unidades por caja: <?= $prod['unidades_por_presentacion'] ?? 'desconocidas' ?>
+                                                - Total unidades disponibles: <?= $prod['stock'] * ($prod['unidades_por_presentacion'] ?? 0) ?>
+                                            </small>
+                                        <?php endif; ?>
+                                    </td>
+                                    
+                                </tr>
 
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <img src="img/caja_clavos.png" class="img-thumbnail-fixed" alt="Producto">
-                            </td>
-                            <td>Caja de clavos</td>
-                            <td><span>$</span>8</td>
-                            <td>Ferretería</td>
-                            <td>10</td>
-                            <td>
-                                <span class="badge bg-info text-dark">Caja</span><br>
-                                <small class="text-muted">100 unidades por caja</small>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <img src="img/rollo_papel.png" class="img-thumbnail-fixed" alt="Producto">
-                            </td>
-                            <td>Cartón de papel</td>
-                            <td><span>$</span>15</td>
-                            <td>Oficina</td>
-                            <td>5</td>
-                            <td>
-                                <span class="badge bg-info text-dark">Caja</span><br>
-                                <small class="text-muted">Unidades desconocidas</small>
-                            </td>
-                        </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="9" class="text-center">No hay productos para esta categoría.</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

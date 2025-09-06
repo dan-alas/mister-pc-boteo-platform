@@ -45,8 +45,11 @@
                                     <label class="form-label fw-semibold">Propietario: </label>
                                     <select name="propietario_id" class="form-select">
                                         <option disabled>Seleccione un propietario</option>
-                                        <option value="1" <?= ($equipo['propietario_id'] == 1) ? 'selected' : '' ?>>Daniel Alas</option>
-                                        <option value="2" <?= ($equipo['propietario_id'] == 2) ? 'selected' : '' ?>>Cesar Ramirez</option>
+                                        <?php foreach ($propietarios as $prop): ?>
+                                            <option value="<?= $prop['id'] ?>" <?= ($equipo['propietario_id'] == $prop['id']) ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($prop['nombre_completo']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
 
@@ -73,8 +76,12 @@
                                     <label class="form-label fw-semibold text-danger">Técnico Asignado: </label>
                                     <select name="tecnico_id" class="form-select">
                                         <option disabled>Seleccione un técnico</option>
-                                        <option value="1" <?= ($equipo['tecnico_id'] == 1) ? 'selected' : '' ?>>Daniel Alas</option>
-                                        <option value="2" <?= ($equipo['tecnico_id'] == 2) ? 'selected' : '' ?>>Cesar Ramirez</option>
+                                        <?php foreach ($tecnicos as $tec): ?>
+                                            <option value="<?= htmlspecialchars($tec['id']) ?>"
+                                                <?= (isset($equipo['tecnico_id']) && $equipo['tecnico_id'] == $tec['id']) ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($tec['nombre_completo']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
 

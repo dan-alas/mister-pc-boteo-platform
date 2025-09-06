@@ -206,4 +206,93 @@ class Equipo
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Obtener equipos asignados a un técnico
+    public function getByTecnico($tecnico_id, $estadoFiltro = '')
+    {
+        $sql = "SELECT e.id, e.nombre_equipo, e.marca, e.tipo_problema, e.estado_actual, e.fecha_ingreso,
+                   p.nombre_completo AS propietario, t.nombre_completo AS tecnico
+            FROM equipos e
+            LEFT JOIN usuarios p ON e.propietario_id = p.id
+            LEFT JOIN usuarios t ON e.tecnico_id = t.id
+            WHERE e.activo = 1
+              AND e.tecnico_id = :tecnico_id
+              AND e.estado_actual != 'entregado'"; // <- filtro clave para la lista principal
+
+        if (!empty($estadoFiltro)) {
+            $sql .= " AND e.estado_actual = :estado";
+        }
+
+        $sql .= " ORDER BY e.id DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':tecnico_id', $tecnico_id, PDO::PARAM_INT);
+
+        if (!empty($estadoFiltro)) {
+            $stmt->bindValue(':estado', $estadoFiltro, PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function historialPorTecnico($tecnico_id, $tipoFiltro = '')
+    {
+        $sql = "SELECT e.id, e.nombre_equipo, e.marca, e.tipo_problema, e.fecha_ingreso, 
+                   e.fecha_finalizacion, 
+                   p.nombre_completo AS propietario, 
+                   t.nombre_completo AS tecnico
+            FROM equipos e
+            LEFT JOIN usuarios p ON e.propietario_id = p.id
+            LEFT JOIN usuarios t ON e.tecnico_id = t.id
+            WHERE e.estado_actual = 'entregado'
+              AND e.tecnico_id = :tecnico_id";
+
+        // Filtrar solo si se seleccionó un tipo específico
+        if ($tipoFiltro === 'hardware' || $tipoFiltro === 'software' || $tipoFiltro === 'ambos') {
+            $sql .= " AND e.tipo_problema = :tipo";
+        }
+
+        $sql .= " ORDER BY e.fecha_finalizacion DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':tecnico_id', $tecnico_id, PDO::PARAM_INT);
+
+        if ($tipoFiltro === 'hardware' || $tipoFiltro === 'software' || $tipoFiltro === 'ambos') {
+            $stmt->bindValue(':tipo', $tipoFiltro);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Obtener todas las reparaciones de un técnico (basado en los equipos que tiene asignados)
+    public function getReparacionesByTecnico($tecnico_id)
+    {
+        $sql = "SELECT r.id, r.equipo_id, r.descripcion_proceso, r.detalles_problemas, r.fecha_registro,
+                   e.nombre_equipo, e.marca, e.tipo_problema
+            FROM reparaciones r
+            INNER JOIN equipos e ON r.equipo_id = e.id
+            WHERE e.tecnico_id = :tecnico_id
+            ORDER BY r.fecha_registro DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':tecnico_id', $tecnico_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Obtener todas las reparaciones de un equipo
+    public function getReparacionesByEquipo($equipo_id)
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT * FROM reparaciones 
+         WHERE equipo_id = :equipo_id 
+         ORDER BY fecha_registro DESC"
+        );
+        $stmt->bindValue(':equipo_id', $equipo_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

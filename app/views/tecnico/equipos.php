@@ -23,17 +23,12 @@
         <main class="flex-grow-1 overflow-auto p-4">
             <h4 class="text-center mb-4 fw-bold">EQUIPOS ASIGNADOS</h4>
 
-            <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-                <select class="form-select w-auto">
-                    <option>Filtrar por tipo</option>
-                    <option>Software</option>
-                    <option>Hardware</option>
-                </select>
+            <div class="d-flex flex-column flex-md-row flex-end justify-content-end mb-3">
+
                 <div class="mt-3 mt-md-auto">
-                    <a href="./equipos/equipos-agregar.php" class="btn btn-primary"><i class="bi bi-plus"></i>Agregar equipo</a>
-                    <a href="./equipos/equipos-reparado.php" class="btn btn-success"><i class="bi bi-check2"></i>Reparado</a>
+                    <a href="./equipos/equipos-reparado.php" class="btn btn-success"><i class="bi bi-check2"></i> Equipo Reparado</a>
                     <a href="./equipos/equipos-historial.php" class="btn btn-warning text-white"><i
-                            class="bi bi-clock-history"></i>Historial</a>
+                            class="bi bi-clock-history"></i> Historial</a>
                 </div>
             </div>
 
@@ -52,22 +47,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="./equipos/equipos-ver.php">PC-DANIEL</a></td>
-                            <td>Daniel Alas</td>
-                            <td>Asus Vivobook</td>
-                            <td>06/07/2024</td>
-                            <td>Software</td>
-                            <td>En proceso</td>
-                            <td>
-                                <a href="./equipos/equipos-editar.php" class="text-green">Editar</a> <a href="#"
-                                    class="text-danger" data-bs-toggle="modal"
-                                    data-bs-target="#confirmarEliminar">Eliminar</a>
-                            </td>
-                        </tr>
-
-                        <!-- Más filas -->
+                        <?php if (empty($equipos)): ?>
+                            <tr>
+                                <td colspan="9" class="text-center">No tienes equipos asignados</td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($equipos as $eq): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($eq['id']) ?></td>
+                                    <td><?= htmlspecialchars($eq['nombre_equipo']) ?></td>
+                                    <td><?= htmlspecialchars($eq['propietario']) ?></td>
+                                    <td><?= htmlspecialchars($eq['marca']) ?></td>
+                                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($eq['fecha_ingreso']))) ?></td>
+                                    <td><?= htmlspecialchars($eq['tipo_problema']) ?></td>
+                                    <td><?= htmlspecialchars($eq['estado_actual']) ?></td>
+                                    <td>
+                                        <a href="./equipos/equipos-editar.php?id=<?= $eq['id'] ?>" class="text-success">Actualizar</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

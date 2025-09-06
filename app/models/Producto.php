@@ -43,7 +43,7 @@ class Producto
                 (nombre, precio, imagen, stock, categoria_id, proveedor_id, tipo_presentacion, unidades_por_presentacion, marca, is_active)
                 VALUES 
                 (:nombre, :precio, :imagen, :stock, :categoria_id, :proveedor_id, :tipo_presentacion, :unidades_por_presentacion, :marca, 1)";
-        
+
         $stmt = $this->pdo->prepare($sql);
 
         $unidades = $data['unidades_por_presentacion'] !== '' ? $data['unidades_por_presentacion'] : null;
@@ -75,7 +75,7 @@ class Producto
                     unidades_por_presentacion = :unidades_por_presentacion,
                     marca = :marca
                 WHERE id = :id";
-        
+
         $stmt = $this->pdo->prepare($sql);
 
         $unidades = $data['unidades_por_presentacion'] !== '' ? $data['unidades_por_presentacion'] : null;

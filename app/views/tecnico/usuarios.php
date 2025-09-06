@@ -23,38 +23,33 @@
         <main class="flex-grow-1 overflow-auto p-4">
             <h4 class="text-center mb-5 fw-bold">USUARIOS REGISTRADOS</h4>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead class="table-dark">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo Electrónico</th>
+                        <th>Teléfono</th>
+                        <th>Estado</th>
+                    </tr>
+                <tbody>
+                    <?php if (!empty($usuarios)): ?>
+                        <?php foreach ($usuarios as $user): ?>
+                            <tr>
+                                <td><?= $user['id'] ?></td>
+                                <td><?= htmlspecialchars($user['nombre_completo']) ?></td>
+                                <td><?= htmlspecialchars($user['email']) ?></td>
+                                <td><?= htmlspecialchars($user['telefono']) ?></td>
+                                <td><?= $user['is_active'] ? 'Activo' : 'Inactivo' ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
                         <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Correo Electronico</th>
-                            <th>Telefono</th>
-                            <th>Equipos en reparación</th>
-                            <th>Reparados</th>
+                            <td colspan="5" class="text-center">No hay usuarios registrados.</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Daniel Alas</td>
-                            <td>alasdaniel@gmail.com</td>
-                            <td>7070-7070</td>
-                            <td>Ninguno</td>
-                            <td>Dell latitude, Asus Vivobook</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Daniel Alas</td>
-                            <td>alasdaniel@gmail.com</td>
-                            <td>7070-7070</td>
-                            <td>Ninguno</td>
-                            <td>Dell latitude, Asus Vivobook</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </main>
         <!-- Main Usuarios Finaliza -->
 

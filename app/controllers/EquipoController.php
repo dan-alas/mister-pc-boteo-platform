@@ -184,4 +184,29 @@ class EquipoController
             'tipoFiltro' => $tipoFiltro
         ];
     }
+
+    public function equiposTecnico($tecnico_id, $estadoFiltro = '')
+    {
+        return $this->equipoModel->getByTecnico($tecnico_id, $estadoFiltro);
+    }
+
+    public function verHistorialTecnico($tecnico_id, $tipoFiltro = '')
+    {
+        $equipos = $this->equipoModel->historialPorTecnico($tecnico_id, $tipoFiltro);
+
+        return [
+            'equipos' => $equipos,
+            'tipoFiltro' => $tipoFiltro
+        ];
+    }
+
+    public function reparacionesTecnico($tecnico_id)
+    {
+        // Llamamos al modelo para obtener todas las reparaciones de los equipos del técnico
+        $reparaciones = $this->equipoModel->getReparacionesByTecnico($tecnico_id);
+
+        return [
+            'reparaciones' => $reparaciones
+        ];
+    }
 }

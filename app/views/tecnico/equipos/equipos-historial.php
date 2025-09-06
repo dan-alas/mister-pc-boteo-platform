@@ -22,12 +22,8 @@
         <main class="flex-grow-1 overflow-auto p-4">
             <h4 class="text-center mb-4 fw-bold">HISTORIAL DE SUS EQUIPOS REPARADOS</h4>
 
-            <div class="d-flex flex-column flex-md-row justify-content-between mb-3">
-                <select class="form-select w-auto">
-                    <option>Filtrar por tipo</option>
-                    <option>Software</option>
-                    <option>Hardware</option>
-                </select>
+            <div class="d-flex flex-column flex-md-row justify-content-end mb-3">
+        
                 <div class="mt-3 mt-md-auto">
                     <a href="../equipos.php" class="btn btn-warning text-white"><i
                             class="bi bi-box-arrow-left me-1"></i>Regresar</a>
@@ -50,17 +46,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>PC-DANIEL</td>
-                            <td>Daniel Alas</td>
-                            <td>Asus Vivobook</td>
-                            <td>06/07/2024</td>
-                            <td>06/09/2024</td>
-
-                            <td>Software</td>
-                            <td><a href="#" class="text-green">Descargar PDF</a></td>
-                        </tr>
+                        <?php if (!empty($equipos)): ?>
+                            <?php foreach ($equipos as $eq): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($eq['id']) ?></td>
+                                    <td><?= htmlspecialchars($eq['nombre_equipo']) ?></td>
+                                    <td><?= htmlspecialchars($eq['propietario']) ?></td>
+                                    <td><?= htmlspecialchars($eq['marca']) ?></td>
+                                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($eq['fecha_ingreso']))) ?></td>
+                                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($eq['fecha_finalizacion']))) ?></td>
+                                    <td><?= htmlspecialchars($eq['tipo_problema']) ?></td>
+                                    <td><a href="#" class="text-success">Descargar PDF</a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">
+                                    No tienes historial de equipos entregados.
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

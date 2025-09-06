@@ -4,20 +4,20 @@ require_once __DIR__ . '/../../../config/config.php'; // Ajusta la ruta a tu con
 
 try {
     // // Equipos en reparación
-    // $stmt = $pdo->query("SELECT COUNT(*) FROM ordenes_reparacion WHERE estado = 'En reparación'");
-    // $equipos_reparacion = $stmt->fetchColumn();
+    $stmt = $pdo->query("SELECT COUNT(*) FROM equipos WHERE estado_actual = 'En proceso'");
+    $equipos_reparacion = $stmt->fetchColumn();
 
     // // Productos disponibles
-    // $stmt = $pdo->query("SELECT COUNT(*) FROM productos");
-    // $productos_disponibles = $stmt->fetchColumn();
+    $stmt = $pdo->query("SELECT COUNT(*) FROM productos");
+    $productos_disponibles = $stmt->fetchColumn();
 
     // /// Técnicos disponibles
-    // $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE rol = 'tecnico'");
-    // $tecnicos = $stmt->fetchColumn();
+    $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE rol = 'tecnico'");
+    $tecnicos = $stmt->fetchColumn();
 
     // // Clientes registrados
-    // $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE rol = 'cliente'");
-    // $clientes = $stmt->fetchColumn();
+    $stmt = $pdo->query("SELECT COUNT(*) FROM usuarios WHERE rol = 'cliente'");
+    $clientes = $stmt->fetchColumn();
 
 } catch (PDOException $e) {
     die("Error al obtener los datos: " . $e->getMessage());
