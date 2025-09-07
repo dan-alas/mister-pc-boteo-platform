@@ -209,4 +209,16 @@ class EquipoController
             'reparaciones' => $reparaciones
         ];
     }
+
+    public function equiposEnReparacion($cliente_id, $estadoFiltro = '')
+    {
+        $equipoModel = new Equipo($this->pdo); // si tu clase tiene $this->pdo disponible
+        return $equipoModel->getByCliente($cliente_id, $estadoFiltro);
+    }
+
+    public function historialEquipos($cliente_id, $tipoFiltro = '')
+    {
+        $equipoModel = new Equipo($this->pdo);
+        return $equipoModel->historialPorCliente($cliente_id, $tipoFiltro);
+    }
 }

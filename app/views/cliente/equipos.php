@@ -16,19 +16,15 @@
     <?php include __DIR__ . '/../../../app/views/common/panel/header.php'; ?> <!-- Header -->
 
     <div class="flex-grow-1 d-flex flex-column flex-md-row" style="min-height: 0;">
-        
+
         <?php include __DIR__ . '/../../../app/views/common/panel/aside_cliente.php'; ?> <!-- Aside -->
 
         <!-- Equipos Inicia -->
         <main class="flex-grow-1 overflow-auto p-4">
-            <h4 class="text-center mb-3 fw-bold">EQUIPOS EN REPARACION</h4>
-            <div class="text-md-end mb-3">
-                <a href="#" class="btn btn-warning text-white">Solicitar reparacion</a>
-            </div>
+            <h4 class="text-center mb-5 fw-bold">EQUIPOS EN REPARACION</h4>
 
             <div class="table-responsive">
                 <table class="table table-striped">
-
                     <thead class="table-dark">
                         <tr>
                             <th>ID</th>
@@ -40,21 +36,28 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>PC-DANIEL</td>
-                            <td>Asus Vivobook</td>
-                            <td>06/07/2024</td>
-                            <td>Cesar Ramirez</td>
-                            <td>Software</td>
-                            <td>En proceso</td>
-                        </tr>
+                        <?php if (!empty($equipos)): ?>
+                            <?php foreach ($equipos as $equipo): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($equipo['id']) ?></td>
+                                    <td><?= htmlspecialchars($equipo['nombre_equipo']) ?></td>
+                                    <td><?= htmlspecialchars($equipo['marca']) ?></td>
+                                    <td><?= !empty($equipo['fecha_ingreso']) ? date('d/m/Y', strtotime($equipo['fecha_ingreso'])) : '' ?></td>
+                                    <td><?= htmlspecialchars($equipo['tecnico'] ?? 'Sin asignar') ?></td>
+                                    <td><?= htmlspecialchars($equipo['tipo_problema']) ?></td>
+                                    <td><?= htmlspecialchars($equipo['estado_actual']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="7" class="text-center">No hay equipos para mostrar</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
-
                 </table>
             </div>
+
             <!-- Equipos Finaliza -->
         </main>
     </div>

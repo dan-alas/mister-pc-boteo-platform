@@ -64,7 +64,7 @@
                                 <td><?= htmlspecialchars($equipo['fecha_finalizacion']) ?></td>
                                 <td><?= htmlspecialchars($equipo['tecnico']) ?></td>
                                 <td><?= htmlspecialchars($equipo['tipo_problema']) ?></td>
-                                <td><a href="#" class="text-green">Descargar PDF</a></td>
+                                <td><a href="../../download_historial.php?id=<?= $equipo['id'] ?>" class="text-green">Descargar PDF</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

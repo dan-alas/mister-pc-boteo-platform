@@ -30,7 +30,7 @@
                             <th>ID</th>
                             <th>Nombre de Equipo</th>
                             <th>Marca</th>
-                            <th>Fecha</th>
+                            <th>Fecha Ingreso</th>
                             <th>Fecha de Entrega</th>
                             <th>Técnico</th>
                             <th>Tipo</th>
@@ -38,19 +38,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>PC-DANIEL</td>
-                            <td>Asus Vivobook</td>
-                            <td>06/07/2024</td>
-                            <td>06/09/2024</td>
-                            <td>Mr Boteo</td>
-                            <td>Software</td>
-                            <td><a href="#" class="text-green">Descargar PDF</a></td>
-                        </tr>
+                        <?php if (!empty($historial)): ?>
+                            <?php foreach ($historial as $equipo): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($equipo['id']) ?></td>
+                                    <td><?= htmlspecialchars($equipo['nombre_equipo']) ?></td>
+                                    <td><?= htmlspecialchars($equipo['marca']) ?></td>
+                                    <td><?= !empty($equipo['fecha_ingreso']) ? date('d/m/Y', strtotime($equipo['fecha_ingreso'])) : '' ?></td>
+                                    <td><?= !empty($equipo['fecha_finalizacion']) ? date('d/m/Y', strtotime($equipo['fecha_finalizacion'])) : '' ?></td>
+                                    <td><?= htmlspecialchars($equipo['tecnico'] ?? 'Sin asignar') ?></td>
+                                    <td><?= htmlspecialchars($equipo['tipo_problema']) ?></td>
+                                    <td>
+                                    <a href="../download_historial.php?id=<?= $equipo['id'] ?>" class="text-green">Descargar PDF</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="8" class="text-center">No hay historial para mostrar</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
+
         </main>
         <!-- Historial Finaliza -->
     </div>

@@ -23,7 +23,7 @@
             <h4 class="text-center mb-4 fw-bold">HISTORIAL DE SUS EQUIPOS REPARADOS</h4>
 
             <div class="d-flex flex-column flex-md-row justify-content-end mb-3">
-        
+
                 <div class="mt-3 mt-md-auto">
                     <a href="../equipos.php" class="btn btn-warning text-white"><i
                             class="bi bi-box-arrow-left me-1"></i>Regresar</a>
@@ -56,7 +56,7 @@
                                     <td><?= htmlspecialchars(date('d/m/Y', strtotime($eq['fecha_ingreso']))) ?></td>
                                     <td><?= htmlspecialchars(date('d/m/Y', strtotime($eq['fecha_finalizacion']))) ?></td>
                                     <td><?= htmlspecialchars($eq['tipo_problema']) ?></td>
-                                    <td><a href="#" class="text-success">Descargar PDF</a></td>
+                                    <td><a href="../../download_historial.php?id=<?= $eq['id'] ?>" class="text-green">Descargar PDF</a></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
