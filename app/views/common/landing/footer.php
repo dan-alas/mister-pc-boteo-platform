@@ -1,68 +1,86 @@
-<!--footer inicia-->
-<footer class="bg-light py-5 px-2 px-lg-0">
+<!-- Footer inicia -->
+<footer class="bg-light pt-5">
     <div class="container-lg">
         <div class="row gy-4 text-start">
 
-            <!--Parrafo de promocion Inicia-->
-            <div class="col-md-3">
-                <div class="mb-2">
-                    <img class="img-fluid rounded" width="70" src="https://res.cloudinary.com/drztldzvn/image/upload/v1753133485/logo-mr-pc_l1rh9t.png" alt="Logo Mister Pc Boteo">
-                </div>
-                <p>Soluciones completas para hardware y software.</p>
-                <div class="d-flex gap-3">
-                    <a href="https://facebook.com" target="_blank" class="fs-4">
-                        <i class="bi bi-facebook text-primary"></i>
+            <!-- Logo y promoción -->
+            <div class="col-6 col-md-3">
+                <img src="https://res.cloudinary.com/drztldzvn/image/upload/v1753133485/logo-mr-pc_l1rh9t.png"
+                    alt="Logo Mister Pc Boteo" width="70" class="img-fluid rounded mb-2">
+                <p class="small text-muted">Soluciones completas para hardware y software.</p>
+                <div class="d-flex gap-2">
+                    <a href="https://facebook.com" target="_blank" class="btn btn-primary btn-sm rounded-circle">
+                        <i class="bi bi-facebook"></i>
                     </a>
-                    <a href="https://whatsapp.com" target="_blank" class="fs-4">
-                        <i class="bi bi-whatsapp text-primary"></i>
+                    <a href="https://whatsapp.com" target="_blank" class="btn btn-primary btn-sm rounded-circle">
+                        <i class="bi bi-whatsapp"></i>
                     </a>
                 </div>
             </div>
-            <!--Parrafo de promocion Finaliza-->
 
-            <!--Navegacion Inicia-->
-            <div class="col-md-3">
-                <h5 class="fw-semibold text-primary">Navegación</h5>
-                <ul class="list-unstyled d-flex flex-column gap-2 mt-3">
-                    <li><a href="/mister-pc-boteo/public/" class="nav-link">Inicio</a></li>
-                    <li><a href="/mister-pc-boteo/public/productos" class="nav-link">Productos</a></li>
-                    <li><a href="/mister-pc-boteo/public/nosotros" class="nav-link">Sobre Nosotros</a></li>
-                    <li><a href="/mister-pc-boteo/public/contacto" class="nav-link">Contacto</a></li>
+            <!-- Navegación -->
+            <div class="col-6 col-md-3">
+                <h6 class="fw-semibold text-primary">Navegación</h6>
+                <ul class="list-unstyled mt-3">
+                    <li><a href="/index" class="footer-link">Inicio</a></li>
+                    <li><a href="/productos" class="footer-link">Productos</a></li>
+                    <li><a href="/nosotros" class="footer-link">Sobre Nosotros</a></li>
+                    <li><a href="/contacto" class="footer-link">Contacto</a></li>
                 </ul>
             </div>
-            <!--Navegacion Finaliza-->
 
-            <!--Servicios Inicia-->
-            <div class="col-md-3">
-                <h5 class="fw-semibold text-primary">Servicios</h5>
-                <ul class="list-unstyled d-flex flex-column gap-2 mt-3">
-                    <li><a href="#" class="nav-link">Mantenimiento</a></li>
-                    <li><a href="#" class="nav-link">Reparación de equipos</a></li>
-                    <li><a href="#" class="nav-link">Venta de repuestos</a></li>
+            <!-- Servicios -->
+            <div class="col-6 col-md-3">
+                <h6 class="fw-semibold text-primary">Servicios</h6>
+                <ul class="list-unstyled mt-3">
+                    <li><a href="#" class="footer-link">Mantenimiento</a></li>
+                    <li><a href="#" class="footer-link">Reparación de equipos</a></li>
+                    <li><a href="#" class="footer-link">Venta de repuestos</a></li>
                 </ul>
             </div>
-            <!--Servicios Finaliza-->
 
-            <!--Contacto Inicia-->
-            <div class="col-md-3">
-                <h5 class="fw-semibold text-primary">Contacto</h5>
-                <ul class="list-unstyled d-flex flex-column gap-2 mt-3">
-                    <li class="mb-1">
-                        <i class="bi bi-geo-alt-fill text-primary"></i>
-                        Sonzacate Sonsonate.<br>El Salvador
+            <!-- Contacto -->
+            <div class="col-6 col-md-3">
+                <h6 class="fw-semibold text-primary">Contacto</h6>
+                <ul class="list-unstyled mt-3 small">
+                    <li class="mb-2">
+                        <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                        Sonzacate, Sonsonate, El Salvador
                     </li>
-                    <li class="mb-1">
-                        <i class="bi bi-telephone-fill text-primary"></i>
+                    <li class="mb-2">
+                        <i class="bi bi-telephone-fill text-primary me-2"></i>
                         +503 7070 - 7070
                     </li>
-                    <li class="mb-0 fw-semibold">
-                        <i class="bi bi-envelope-fill text-primary"></i>
+                    <li>
+                        <i class="bi bi-envelope-fill text-primary me-2"></i>
                         mrpcboteo@gmail.com
                     </li>
                 </ul>
             </div>
-            <!--Contacto Finaliza-->
+
+        </div>
+
+        <!-- Línea divisoria -->
+        <hr class="mt-5">
+
+        <!-- Créditos -->
+        <div class="text-center py-3 small text-muted">
+            © 2025 Mister PC Boteo - Todos los derechos reservados
         </div>
     </div>
 </footer>
-<!--footer termina-->
+<!-- Footer termina -->
+
+<!-- CSS footer -->
+<style>
+    .footer-link {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .footer-link:hover {
+        color: var(--primary-color);
+        border-bottom: 1px solid #1a73e8;
+    }
+</style>

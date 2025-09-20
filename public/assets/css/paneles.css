@@ -1,8 +1,9 @@
-:root{
+:root {
     --color-oscuro: #08192B;
     --color-azul: #1D5591;
     --color-azul-light: #35669B;
-
+    --primary-color: #3a7bd6;
+    
     --color-card-1: #ED9828;
     --color-card-2: #C14E99;
     --color-card-3: #37B84F;
@@ -10,82 +11,96 @@
 
 }
 
-.bg-primary{
-    background-color: var(--color-oscuro) !important;
+.bg-primary {
+    background-color: var(--primary-color) !important;
 
 }
 
-.bg-light{
+.bg-light {
     background-color: var(--color-azul) !important;
 
 }
 
-.bg-active{
+.bg-active {
     background-color: var(--color-azul-light);
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: auto; /* opcional para evitar scroll general */
-  overflow-y: auto;
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    /* opcional para evitar scroll general */
+    overflow-y: auto;
 }
 
 @media (min-width: 768px) {
-    html, body{
+
+    html,
+    body {
         overflow: hidden;
     }
 }
 
-.number-size{
+.number-size {
     font-size: 5rem;
 }
 
-.bg-yellow{
+.bg-yellow {
     background-color: var(--color-card-1);
 }
-.bg-pink{
+
+.bg-pink {
     background-color: var(--color-card-2);
 }
-.bg-green{
+
+.bg-green {
     background-color: var(--color-card-3);
 }
-.bg-light-blue{
+
+.bg-light-blue {
     background-color: var(--color-card-4);
 }
 
-.text-yellow{
+.text-yellow {
     color: var(--color-card-1);
 }
-.text-pink{
+
+.text-pink {
     color: var(--color-card-2);
 }
-.text-green{
+
+.text-green {
     color: var(--color-card-3);
 }
-.text-light-blue{
+
+.text-light-blue {
     color: var(--color-card-4);
 }
 
 .sidebar {
-  overflow-y: auto; /* Para que permita scroll cuando haya más contenido */
+    overflow-y: auto;
+    /* Para que permita scroll cuando haya más contenido */
 }
 
 .img-thumbnail-fixed {
     width: 50px;
     height: 50px;
-    object-fit: cover; /* llena el recuadro manteniendo proporción y recortando el exceso */
-    border-radius: 5px; /* opcional: esquinas un poco redondeadas */
+    object-fit: cover;
+    /* llena el recuadro manteniendo proporción y recortando el exceso */
+    border-radius: 5px;
+    /* opcional: esquinas un poco redondeadas */
 }
 
 
 /* En pantallas md+ */
 @media (min-width: 768px) {
-  .sidebar {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: hidden; /* Sin scroll en pantallas grandes */
-  }
+    .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: hidden;
+        /* Sin scroll en pantallas grandes */
+    }
 }

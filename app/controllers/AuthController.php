@@ -20,15 +20,24 @@ class AuthController
             return ['success' => false, 'error' => 'Por favor completa todos los campos.'];
         }
 
-        $user = $this->userModel->findByEmail($email);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return ['success' => false, 'error' => 'Correo o contraseña incorrectos.'];
+        }
+
+        try {
+            $user = $this->userModel->findByEmail($email);
+        } catch (\Exception $e) {
+            return ['success' => false, 'error' => 'Error interno, por favor intenta más tarde.'];
+        }
 
         if ($user && password_verify($password, $user['pass_hash'])) {
             if ($user['is_active'] == 0) {
-                return ['success' => false, 'error' => 'Usuario desactivado.'];
+
+                return ['success' => false, 'error' => 'Correo o contraseña incorrectos.'];
             }
             return ['success' => true, 'usuario' => $user];
         }
 
-        return ['success' => false, 'error' => 'Credenciales incorrectas.'];
+        return ['success' => false, 'error' => 'Correo o contraseña incorrectos.'];
     }
 }

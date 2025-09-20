@@ -17,7 +17,7 @@ $usuario_rol = $_SESSION['usuario_rol'] ?? 'Desconocido';
 <!-- Header de Paneles -->
 <header class="bg-primary text-white py-2 px-4 d-flex justify-content-between align-items-center">
     <a href="/mister-pc-boteo/public/index.php">
-        <img src="https://res.cloudinary.com/drztldzvn/image/upload/v1751903214/imagen_pc_dpo5y7.png" alt="Logo Mister Pc Boteo" height="60">
+        <img src="https://res.cloudinary.com/drztldzvn/image/upload/v1757213272/Logo_Mister_PC_bhghmg.png" alt="Logo Mister PC Boteo" height="60">
     </a>
     <div>Bienvenido <?= htmlspecialchars($usuario_rol) ?>: <?= htmlspecialchars($usuario_nombre) ?></div>
     <form action="/mister-pc-boteo/public/logout.php" method="post" style="margin:0;">

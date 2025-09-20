@@ -20,7 +20,4 @@ if (isset($_GET['eliminar'])) {
     }
 }
 
-
-
-
 include '../../app/views/admin/equipos.php';

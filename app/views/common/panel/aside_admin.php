@@ -1,6 +1,6 @@
 <!-- Aside Admin Inicia -->
 <aside class="d-flex flex-column flex-md-row">
-    <div class="sidebar d-flex flex-row flex-md-column p-3 bg-light justify-content-between align-items-center"
+    <div class="sidebar d-flex flex-row flex-md-column p-3 bg-primary justify-content-between align-items-center"
         style="min-width: 95px;">
 
         <div class="d-flex flex-row flex-md-column gap-3">
